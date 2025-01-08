@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var activeTab: Tab = .recents
     
     var body: some View {
+        
         TabView(selection: $activeTab) {
             RecentsView()
                 .tag(Tab.recents)
