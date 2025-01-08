@@ -6,17 +6,30 @@
 //
 
 import SwiftUI
+import LocalAuthentication
 
 struct BiometrickLockView<Content: View>: View {
+    
+    enum LockType: String {
+        case biometric = "Bio Metrick Auth"
+        case number = "Custom Number Lock"
+        case both = "First preference will be biometric and if it's not available it will go for number lock"
+    }
+
     /// Lockk properties
     var lockType: LockType = .number
     var lockPin: String
     var isEnabled: Bool
     var lockWhenAppGoesBackground: Bool = true
     
+    @State private var noBiometricAccess: Bool = false
     @State private var forgotPin: () -> Void = {}
     @State private var animateField: Bool = false
     @State private var isUnlocked: Bool = false
+    
+    @State private var context = LAContext()
+    
+    @Environment(\.scenePhase) private var phase
     
     @ViewBuilder var content: Content
     
@@ -26,28 +39,119 @@ struct BiometrickLockView<Content: View>: View {
     var body: some View {
         
         GeometryReader {
+            
             let size = $0.size
             
-            content
-                .frame(width: size.width, height: size.height)
+            content.frame(width: size.width, height: size.height)
             
             if isEnabled && !isUnlocked {
 
                 ZStack {
                     Rectangle()
+                        .fill(.black)
                         .ignoresSafeArea()
                     
-                    if lockType == .both || lockType == .biometric {
-                        
+                    if (lockType == .both && !noBiometricAccess) || lockType == .biometric {
+                        /// Bio Metric section
+                        biometricSection
                     } else {
                         /// Custom number pad
                         NumberPadPinView()
                     }
                 }
+                .environment(\.colorScheme, .dark)
                 .transition(.offset(y: size.height + 100))
+                
+            }
+        }
+        .onChange(of: isEnabled, initial: true) { oldValue, newValue in
+            if newValue {
+                unlockView()
+            }
+        }
+        /// Locking when app goes background
+        .onChange(of: phase) { oldValue, newValue in
+            if newValue != .active && lockWhenAppGoesBackground {
+                isUnlocked = false
+                pin = ""
+            }
+            
+            // Avoid unnesesary FaceID popup by cross checking
+            if newValue == .active && !isUnlocked && isEnabled {
+                unlockView()
             }
         }
     }
+   
+}
+
+//#Preview {
+//    TestLock()
+//}
+
+
+extension BiometrickLockView {
+    
+    private var isBiometricAvailable: Bool {
+        return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
+    }
+    
+    private func unlockView() {
+        /// Checking and ulocking view
+        Task {
+            if isBiometricAvailable && lockType != .number {
+                if let result = try? await context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: "Unlocking the View"), result {
+                    print("Unlocked!")
+                    withAnimation(.snappy, completionCriteria: .logicallyComplete) {
+                        isUnlocked = true
+                    } completion: {
+                        pin = ""
+                    }
+                }
+            }
+            noBiometricAccess = !isBiometricAvailable
+        }
+    }
+    
+    var biometricSection: some View {
+        Group {
+            if noBiometricAccess {
+                Text("Enable biometric access in settings to unlock the view.")
+                    .font(.callout)
+                    .multilineTextAlignment(.center)
+                    .padding(50)
+            } else {
+                /// Bio metric / pin unlock
+                VStack(spacing: 12) {
+                    VStack(spacing: 6) {
+                        Image(systemName: "lock")
+                            .font(.largeTitle)
+                              
+                        Text("Tap to Unlock")
+                            .font(.caption2)
+                            .foregroundStyle(.gray)
+                    }
+                    .frame(width: 100, height: 100)
+                    .background(.ultraThinMaterial, in: .rect(cornerRadius: 10))
+                    .contentShape(.rect)
+                    .onTapGesture {
+                        unlockView()
+                    }
+                    
+                    if lockType == .both {
+                        Text("Enter Pin")
+                            .frame(width: 100, height: 40)
+                            .background(.ultraThinMaterial, in: .rect(cornerRadius: 10))
+                            .contentShape(.rect)
+                            .onTapGesture {
+                                noBiometricAccess = true
+                            }
+                    }
+                }
+            }
+        }
+    }
+    
     /// Custom number pad pin view
     @ViewBuilder
     func NumberPadPinView() -> some View {
@@ -56,6 +160,21 @@ struct BiometrickLockView<Content: View>: View {
             Text("Enter Pin")
                 .font(.title.bold())
                 .frame(maxWidth: .infinity)
+                .overlay(alignment: .leading) {
+                    /// Back button only for both lock types
+                    if lockType == .both  && isBiometricAvailable {
+                        Button(action: {
+                            pin = ""
+                            noBiometricAccess = false
+                        }, label: {
+                            Image(systemName: "arrow.left")
+                                .font(.title3)
+                                .contentShape(.rect)
+                        })
+                        .tint(.white)
+                        .padding(.leading)
+                    }
+                }
             Spacer()
             
             /// Adding wiggling animation for wwrong password using Keyframe animator
@@ -158,6 +277,7 @@ struct BiometrickLockView<Content: View>: View {
                         } completion: {
                          /// Creating Pin
                             pin = ""
+                            noBiometricAccess = !isBiometricAvailable
                         }
                     } else {
                         print("Wrorng pin")
@@ -166,18 +286,9 @@ struct BiometrickLockView<Content: View>: View {
                     }
                 }
             }
+            
         }
         .padding()
         .environment(\.colorScheme, .dark)
     }
-    
-    enum LockType: String {
-        case biometric = "Bio Metrick Auth"
-        case number = "Custom Number Lock"
-        case both = "First preference will be biometric and if it's not available it will go for number lock"
-    }
-}
-
-#Preview {
-    TestLock()
 }
