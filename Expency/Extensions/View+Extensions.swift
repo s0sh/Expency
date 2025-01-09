@@ -35,6 +35,13 @@ extension View {
         return formatter.string(from: .init(value: value)) ?? ""
     }
     
+    func stringWith2Digits(_ value: Double, allowedDigits: Int = 2) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = allowedDigits
+        return formatter.string(from: .init(value: value)) ?? ""
+    }
+    
     var currencySymbol: String  {
         let locale = Locale.current
         return locale.currencySymbol ?? ""
