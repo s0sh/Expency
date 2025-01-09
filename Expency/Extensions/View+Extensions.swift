@@ -34,6 +34,19 @@ extension View {
         formatter.maximumFractionDigits = allowedDigits
         return formatter.string(from: .init(value: value)) ?? ""
     }
+    
+    var currencySymbol: String  {
+        let locale = Locale.current
+        return locale.currencySymbol ?? ""
+    }
+    
+    func total(_ transactions: [Transaction], category: Category) -> Double {
+        let filtered = transactions.filter({ $0.category == category.rawValue })
+        let total = filtered.reduce(Double.zero) { partialResult, transaction in
+            return partialResult + transaction.amount
+        }
+        return total
+    }
 }
 
 struct PressableButtonStyle: ButtonStyle {

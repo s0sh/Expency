@@ -26,14 +26,15 @@ class Transaction {
         self.tintColor = tintColor.color
     }
     
+    @Transient
     var color: Color {
         return Constants.Colors.transactionTints.first(where: { $0.color == tintColor } )?.value ?? Constants.Colors.appTint
     }
-   
+    @Transient
     var tint: TransactionTintColor? {
         return Constants.Colors.transactionTints.first(where: { $0.color == tintColor })
     }
-    
+    @Transient
     var rawCategory: Category? {
         return Category.allCases.first(where: {category == $0.rawValue })
     }

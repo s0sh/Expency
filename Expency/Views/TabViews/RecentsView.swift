@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct RecentsView: View {
-    @Query(sort: [SortDescriptor(\Transaction.dateAdded, order: .reverse)], animation: .snappy) private var transactions: [Transaction]
+  
     /// User Properties
     @AppStorage("userName") private var userName: String = ""
     /// View Properties
@@ -37,22 +37,19 @@ struct RecentsView: View {
                                     .foregroundStyle(.gray)
                             })
                             .hSpacing(.leading)
-                            
-                            /// Card View
-                            CardView(income: 2035, expence: 4090)
-                            /// Custom Segmented Control
-                            CustomSegmentedControl()
-                                .padding(.bottom, 10)
-                            /// Transactions List
-                            ForEach(transactions) { transaction in
-                                NavigationLink {
-                                    NewExpenceView(editTransaction: transaction)
-                                } label: {
-                                    TransactionCardView(transaction: transaction)
-                                }
-                                .buttonStyle(.plain)
+                           
+                            FilterTransactionView(startDate: startDate, endDate: endDate) { transactions in
+                                CardView(
+                                    income: total(transactions, category: .income),
+                                    expence: total(transactions, category: .expence)
+                                )
+                                /// Custom Segmented Control
+                                CustomSegmentedControl()
+                                    .padding(.bottom, 10)
+                                /// Transactions List
+                                TransactionsList(transactions: transactions, category: selectedCategory)
                             }
-                            
+
                         } header: {
                             HeaderView(size)
                         }
@@ -99,7 +96,7 @@ struct RecentsView: View {
             Spacer(minLength: 10)
             
             NavigationLink {
-                NewExpenceView()
+                TransactionView()
             } label: {
                 Image(systemName: "plus")
                     .font(.title3)
@@ -171,4 +168,21 @@ struct RecentsView: View {
 
 #Preview {
     ContentView()
+}
+
+struct TransactionsList: View {
+    
+    var transactions: [Transaction]
+    var category: Category
+    
+    var body: some View {
+        ForEach(transactions.filter({ $0.category == category.rawValue })) { transaction in
+            NavigationLink {
+                TransactionView(editTransaction: transaction)
+            } label: {
+                TransactionCardView(transaction: transaction)
+            }
+            .buttonStyle(.plain)
+        }
+    }
 }

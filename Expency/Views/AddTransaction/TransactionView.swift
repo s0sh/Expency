@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NewExpenceView: View {
+struct TransactionView: View {
     
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
@@ -36,7 +36,7 @@ struct NewExpenceView: View {
                                                              amount: amount,
                                                              dateAdded: dateAdded,
                                                              category: category,
-                                                             tintColor: tint!))
+                                                       tintColor: tint!), showTrachButton: false)
                 
                 CustomSection("Title", "Magic Keyboard", value: $title)
                 CustomSection("Remark", "Apple Prodct!", value: $remark)
@@ -48,13 +48,17 @@ struct NewExpenceView: View {
                         .foregroundStyle(.gray)
                         .hSpacing(.leading)
                     HStack(spacing: 15) {
-                        TextField("0.0", value: $amount, formatter: numberFormatter)
-                            .padding(.horizontal, 15)
-                            .padding(.vertical, 12)
-                            .background(.background, in: .rect(cornerRadius: 10))
-                            .frame(maxWidth: 130)
-                            .keyboardType(.decimalPad)
-                        
+                        HStack(spacing: 4) {
+                            Text(currencySymbol)
+                                .font(.callout.bold())
+                            TextField("0.0", value: $amount, formatter: numberFormatter)
+                                .keyboardType(.decimalPad)
+                        }
+                        .padding(.horizontal, 15)
+                        .padding(.vertical, 12)
+                        .background(.background, in: .rect(cornerRadius: 10))
+                        .frame(maxWidth: 130)
+                            
                         /// Custom Check Box
                         CategoryCheckBox()
                     }
@@ -77,7 +81,7 @@ struct NewExpenceView: View {
             }
             .padding(15)
         }
-        .navigationTitle("Add Transaction")
+        .navigationTitle("\(editTransaction == nil ? "Add" : "Edit") Transaction")
         .background(.gray.opacity(0.15))
         .toolbar(content: {
             ToolbarItem(placement: .topBarTrailing) {
@@ -175,6 +179,6 @@ struct NewExpenceView: View {
 
 #Preview {
     NavigationStack {
-        NewExpenceView()
+        TransactionView()
     }
 }
