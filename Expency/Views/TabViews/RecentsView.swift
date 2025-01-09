@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct RecentsView: View {
+    @Query(sort: [SortDescriptor(\Transaction.dateAdded, order: .reverse)], animation: .snappy) private var transactions: [Transaction]
     /// User Properties
     @AppStorage("userName") private var userName: String = ""
     /// View Properties
@@ -41,9 +43,14 @@ struct RecentsView: View {
                             /// Custom Segmented Control
                             CustomSegmentedControl()
                                 .padding(.bottom, 10)
-                            
-                            ForEach(Transaction.mockTransactions.filter({$0.category == selectedCategory.rawValue})) { transaction in
-                                TransactionCardView(transaction: transaction)
+                            /// Transactions List
+                            ForEach(transactions) { transaction in
+                                NavigationLink {
+                                    NewExpenceView(editTransaction: transaction)
+                                } label: {
+                                    TransactionCardView(transaction: transaction)
+                                }
+                                .buttonStyle(.plain)
                             }
                             
                         } header: {
@@ -92,7 +99,7 @@ struct RecentsView: View {
             Spacer(minLength: 10)
             
             NavigationLink {
-                
+                NewExpenceView()
             } label: {
                 Image(systemName: "plus")
                     .font(.title3)

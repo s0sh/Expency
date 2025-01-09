@@ -13,5 +13,6 @@ struct ExpencyApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [Transaction.self])
     }
 }
