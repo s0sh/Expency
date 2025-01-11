@@ -10,7 +10,9 @@ import Charts
 import SwiftData
 
 struct ChartsView: View {
+    
     @Query(animation: .snappy) private var transactions: [Transaction]
+    
     @State private var chartGroups: [ChartGroup] = []
     
     var body: some View {
@@ -22,6 +24,21 @@ struct ChartsView: View {
                         .padding(10)
                         .padding(.top, 10)
                         .background(.background, in: .rect(cornerRadius: 10))
+                    
+                    ForEach(chartGroups) { group in
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text(format(date: group.date, format: "MMM yy"))
+                                .font(.caption)
+                                .foregroundStyle(.gray)
+                                .hSpacing(.leading)
+                            NavigationLink {
+                                ListOfExpense(month: group.date)
+                            } label: {
+                                CardView(income: group.totalIncome, expence: group.totalExpense)
+                            }
+                            
+                        }
+                    }
                 }
                 .padding(15)
             }
@@ -54,8 +71,12 @@ struct ChartsView: View {
         .chartYAxis {
             AxisMarks(position: .leading) { value in
                 let doubleValue = value.as(Double.self) ?? 0
+
+                AxisGridLine()
+                AxisTick()
+                
                 AxisValueLabel {
-                    Text("\(stringWith2Digits(doubleValue))")
+                    Text(axisLabel(doubleValue))
                 }
                 
             }
@@ -66,7 +87,7 @@ struct ChartsView: View {
     func createChartGroup() {
         Task.detached(priority: .high) {
             let calendar = Calendar.current
-            let groupByDate = Dictionary(grouping: transactions) { transaction in
+            let groupByDate = await Dictionary(grouping: transactions) { transaction in
                 let components = calendar.dateComponents([.month, .year], from: transaction.dateAdded)
                 return components
             }
@@ -99,8 +120,65 @@ struct ChartsView: View {
         
         
     }
+    
+    func axisLabel(_ value: Double) -> String {
+        let intValue = Int(value)
+        let kValue = Int(value) / 1000
+        return intValue < 100 ? "\(intValue)" : "\(kValue)k"
+    }
 }
 //
 //#Preview {
 //    ChartsView()
 //}
+
+struct ListOfExpense: View {
+    let month: Date
+    
+    var body: some View {
+        ScrollView(.vertical) {
+            LazyVStack(spacing: 15) {
+                Section {
+                    FilterTransactionView(startDate: month.startOfMonth,
+                                          endDate: month.endOfMonth, category: .income) { transacitons in
+                        ForEach(transacitons) { transaction in
+                            NavigationLink(value: transaction) {
+                                TransactionCardView(transaction: transaction)
+                            }
+                        }
+                    }
+                } header: {
+                    Text("Income")
+                        .font(.caption)
+                        .foregroundStyle(.gray)
+                        .hSpacing(.leading)
+                }
+                
+                Section {
+                    FilterTransactionView(startDate: month.startOfMonth,
+                                          endDate: month.endOfMonth, category: .expence) { transacitons in
+                        ForEach(transacitons) { transaction in
+                            NavigationLink(value: transaction) {
+                                TransactionCardView(transaction: transaction)
+                            }
+                            
+                        }
+                    }
+                } header: {
+                    Text("Expense")
+                        .font(.caption)
+                        .foregroundStyle(.gray)
+                        .hSpacing(.leading)
+                }
+            }
+            .padding(15)
+            
+            
+        }
+        .background(.gray.opacity(0.15))
+        .navigationTitle(format(date: month, format: "MMM yy"))
+        .navigationDestination(for: Transaction.self) { transaction in
+            TransactionView(editTransaction: transaction)
+        }
+    }
+}

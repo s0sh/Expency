@@ -6,8 +6,42 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B55B32F62D317404007C5085 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55B32F52D317403007C5085 /* WidgetKit.framework */; };
+		B55B32F82D317404007C5085 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B55B32F72D317404007C5085 /* SwiftUI.framework */; };
+		B55B33032D317407007C5085 /* StatsCardViewExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B55B32F32D317403007C5085 /* StatsCardViewExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B55B33012D317407007C5085 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B532CF9D2D2CEF7F00A45CA1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B55B32F22D317403007C5085;
+			remoteInfo = StatsCardViewExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B55B33082D317407007C5085 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B55B33032D317407007C5085 /* StatsCardViewExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		B532CFA52D2CEF7F00A45CA1 /* Expency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Expency.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B55B32F32D317403007C5085 /* StatsCardViewExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = StatsCardViewExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B55B32F52D317403007C5085 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		B55B32F72D317404007C5085 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		B55B33122D317EE0007C5085 /* StatsCardViewExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StatsCardViewExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -18,6 +52,26 @@
 			);
 			target = B532CFA42D2CEF7F00A45CA1 /* Expency */;
 		};
+		B55B33072D317407007C5085 /* Exceptions for "StatsCardView" folder in "StatsCardViewExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = B55B32F22D317403007C5085 /* StatsCardViewExtension */;
+		};
+		B55B330A2D31778E007C5085 /* Exceptions for "Expency" folder in "StatsCardViewExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Constants.swift,
+				"Extensions/Date+Ext.swift",
+				"Extensions/View+Extensions.swift",
+				Model/Category.swift,
+				Model/Transaction.swift,
+				Views/Cells/CardView.swift,
+				Views/ViewHelpers/FilterTransactionView.swift,
+			);
+			target = B55B32F22D317403007C5085 /* StatsCardViewExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -25,8 +79,17 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				B54E76352D2ECB2E0059E330 /* Exceptions for "Expency" folder in "Expency" target */,
+				B55B330A2D31778E007C5085 /* Exceptions for "Expency" folder in "StatsCardViewExtension" target */,
 			);
 			path = Expency;
+			sourceTree = "<group>";
+		};
+		B55B32F92D317404007C5085 /* StatsCardView */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B55B33072D317407007C5085 /* Exceptions for "StatsCardView" folder in "StatsCardViewExtension" target */,
+			);
+			path = StatsCardView;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -39,13 +102,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B55B32F02D317403007C5085 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B55B32F82D317404007C5085 /* SwiftUI.framework in Frameworks */,
+				B55B32F62D317404007C5085 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		B532CF9C2D2CEF7F00A45CA1 = {
 			isa = PBXGroup;
 			children = (
+				B55B33122D317EE0007C5085 /* StatsCardViewExtension.entitlements */,
 				B532CFA72D2CEF7F00A45CA1 /* Expency */,
+				B55B32F92D317404007C5085 /* StatsCardView */,
+				B55B32F42D317403007C5085 /* Frameworks */,
 				B532CFA62D2CEF7F00A45CA1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,8 +129,18 @@
 			isa = PBXGroup;
 			children = (
 				B532CFA52D2CEF7F00A45CA1 /* Expency.app */,
+				B55B32F32D317403007C5085 /* StatsCardViewExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B55B32F42D317403007C5085 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B55B32F52D317403007C5085 /* WidgetKit.framework */,
+				B55B32F72D317404007C5085 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -68,10 +153,12 @@
 				B532CFA12D2CEF7F00A45CA1 /* Sources */,
 				B532CFA22D2CEF7F00A45CA1 /* Frameworks */,
 				B532CFA32D2CEF7F00A45CA1 /* Resources */,
+				B55B33082D317407007C5085 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				B55B33022D317407007C5085 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				B532CFA72D2CEF7F00A45CA1 /* Expency */,
@@ -82,6 +169,28 @@
 			productName = Expency;
 			productReference = B532CFA52D2CEF7F00A45CA1 /* Expency.app */;
 			productType = "com.apple.product-type.application";
+		};
+		B55B32F22D317403007C5085 /* StatsCardViewExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B55B33042D317407007C5085 /* Build configuration list for PBXNativeTarget "StatsCardViewExtension" */;
+			buildPhases = (
+				B55B32EF2D317403007C5085 /* Sources */,
+				B55B32F02D317403007C5085 /* Frameworks */,
+				B55B32F12D317403007C5085 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				B55B32F92D317404007C5085 /* StatsCardView */,
+			);
+			name = StatsCardViewExtension;
+			packageProductDependencies = (
+			);
+			productName = StatsCardViewExtension;
+			productReference = B55B32F32D317403007C5085 /* StatsCardViewExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -94,6 +203,9 @@
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					B532CFA42D2CEF7F00A45CA1 = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					B55B32F22D317403007C5085 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -113,12 +225,20 @@
 			projectRoot = "";
 			targets = (
 				B532CFA42D2CEF7F00A45CA1 /* Expency */,
+				B55B32F22D317403007C5085 /* StatsCardViewExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		B532CFA32D2CEF7F00A45CA1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B55B32F12D317403007C5085 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -135,7 +255,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B55B32EF2D317403007C5085 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B55B33022D317407007C5085 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B55B32F22D317403007C5085 /* StatsCardViewExtension */;
+			targetProxy = B55B33012D317407007C5085 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		B532CFB12D2CEF8100A45CA1 /* Debug */ = {
@@ -262,6 +397,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Expency/Expency.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Expency/Preview Content\"";
@@ -293,6 +429,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Expency/Expency.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Expency/Preview Content\"";
@@ -319,6 +456,66 @@
 			};
 			name = Release;
 		};
+		B55B33052D317407007C5085 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = StatsCardViewExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 29A3GKN98A;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StatsCardView/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = StatsCardView;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Roman-Bihun.Expency.StatsCardView";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B55B33062D317407007C5085 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = StatsCardViewExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 29A3GKN98A;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StatsCardView/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = StatsCardView;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Roman-Bihun.Expency.StatsCardView";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -336,6 +533,15 @@
 			buildConfigurations = (
 				B532CFB42D2CEF8100A45CA1 /* Debug */,
 				B532CFB52D2CEF8100A45CA1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B55B33042D317407007C5085 /* Build configuration list for PBXNativeTarget "StatsCardViewExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B55B33052D317407007C5085 /* Debug */,
+				B55B33062D317407007C5085 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

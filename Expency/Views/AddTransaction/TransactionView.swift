@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 struct TransactionView: View {
     
@@ -122,6 +123,7 @@ struct TransactionView: View {
             context.insert(transaction)
         }
         
+        WidgetCenter.shared.reloadAllTimelines()
         dismiss()
     }
     /// Custom Section

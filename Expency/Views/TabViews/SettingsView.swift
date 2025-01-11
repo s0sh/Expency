@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     /// User Properties
     @AppStorage("userName") private var userName: String = ""
+    
     ///  App lock Properties
     @AppStorage("isAppLockEnabled") private var isAppLockEnabled: Bool = false
     @AppStorage("lockWhenAppGoesBackground") private var lockWhenAppGoesBackground: Bool = false
